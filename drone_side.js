@@ -61,6 +61,7 @@ function hangup() {
 
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
+    document.getElementById('self_code').innerText = easyrtcid;
 }
 
 
