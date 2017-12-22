@@ -1,0 +1,22 @@
+{
+  "name": "DroneGrabber",
+  "version": "0.0.1",
+  "window": {
+    "title": "DroneRTCGrabber",
+    "width": 800,
+    "height": 600,
+    "min_width": 800,
+    "min_height": 600,
+    "max_width": 800,
+    "max_height": 600,
+    "show": false,
+    "toolbar": true,
+    "frame":false
+  },
+  "nodejs":true,
+  "main": "index.html",
+  "dependencies": {
+    "socket.io-client": "^2.0.4"
+  },
+  "chromium-args": "--disable-web-security --allow-running-insecure-content --ignore-certificate-errors"
+}

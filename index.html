@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  <!--skip-->
+    <title>EasyRTC Demo: Video Only</title>
+    <!-- Assumes global locations for socket.io.js and easyrtc.js -->
+    <script type="text/javascript" src="/statics/socket.io.js"></script>
+    <script type="text/javascript" src="/statics/easyrtc.js"></script>
+    <script type="text/javascript" src="/drone_side.js"></script>
+    <!--hide-->
+    <!-- Styles used within the demo -->
+    <style type="text/css">
+        #selfVideo {
+            height: 600px;
+            width: 800px;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+        }
+
+        #acceptCallBox {
+            display: none;
+            z-index: 2;
+            position: absolute;
+            top: 100px;
+            left: 400px;
+            border: red solid 2px;
+            background-color: pink;
+            padding: 15px;
+        }
+    </style>
+    <!--show-->
+</head>
+<body>
+<!--hide-->
+<div id="videos">
+    <video autoplay="autoplay" id="selfVideo" class="easyrtcMirror"></video>
+</div>
+<script>
+    window.onload = function (ev) {
+        console.log("Try to connect");
+        connect_gcs();
+    }
+</script>
+<!--show-->
+</body>
+</html>
