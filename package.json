@@ -9,7 +9,7 @@
     "min_height": 600,
     "max_width": 800,
     "max_height": 600,
-    "show": false,
+    "show": true,
     "toolbar": true,
     "frame":false
   },
