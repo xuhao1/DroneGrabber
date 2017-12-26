@@ -1,46 +1,25 @@
-//
-//Copyright (c) 2016, Skedans Systems, Inc.
-//All rights reserved.
-//
-//Redistribution and use in source and binary forms, with or without
-//modification, are permitted provided that the following conditions are met:
-//
-//    * Redistributions of source code must retain the above copyright notice,
-//      this list of conditions and the following disclaimer.
-//    * Redistributions in binary form must reproduce the above copyright
-//      notice, this list of conditions and the following disclaimer in the
-//      documentation and/or other materials provided with the distribution.
-//
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-//AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-//IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-//ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-//LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-//CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-//SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-//INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-//CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-//ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-//POSSIBILITY OF SUCH DAMAGE.
-//
 var selfEasyrtcid = "";
-
 
 
 function connect_gcs() {
     easyrtc.setSocketUrl("http://vtol.xuhao1.me:8081");
-    easyrtc.enableDebug(true);
+    easyrtc.setUsername("DefaultDrone");
+    // easyrtc.enableDebug(true);
+    // easyrtc.setVideoDims(1280,720);
     console.log("Initializing.");
     easyrtc.enableAudio(false);
     easyrtc.enableVideoReceive(false);
     easyrtc.enableAudioReceive(false);
+    easyrtc.enableDataChannels(true);
     easyrtc.initMediaSource(
-        function(){        // success callback
+        function () {        // success callback
+            console.log("Media inited!Will start stream");
             var selfVideo = document.getElementById("selfVideo");
             easyrtc.setVideoObjectSrc(selfVideo, easyrtc.getLocalStream());
+            // easyrtc.setAudioSource(selfVideo)
             easyrtc.connect("easyrtc.videoOnly", loginSuccess, loginFailure);
         },
-        function(errorCode, errmesg){
+        function (errorCode, errmesg) {
             easyrtc.showError("MEDIA-ERROR", errmesg);
         }  // failure callback
     );
@@ -58,7 +37,6 @@ function hangup() {
 }
 
 
-
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
     document.getElementById('self_code').innerText = easyrtcid;
@@ -69,13 +47,29 @@ function loginFailure(errorCode, message) {
     easyrtc.showError(errorCode, message);
 }
 
+var gcs_easyrtcid = 0;
 
+function send_msg_to_gcs(msg) {
+    if (gcs_easyrtcid == 0)
+        return;
+    easyrtc.sendDataP2P(gcs_easyrtcid, 'mavlink', msg);
 
-easyrtc.setOnStreamClosed( function (easyrtcid) {
+}
+
+easyrtc.setOnStreamClosed(function (easyrtcid) {
     easyrtc.setVideoObjectSrc(document.getElementById('callerVideo'), "");
 });
 
 
-easyrtc.setAcceptChecker(function(easyrtcid, callback) {
+easyrtc.setAcceptChecker(function (easyrtcid, callback) {
+    gcs_easyrtcid = easyrtcid;
+    console.log("Got gcs id");
+    console.log(gcs_easyrtcid);
     callback(true);
-} );
+});
+
+easyrtc.setPeerListener(function (who, msgType, content) {
+        // console.log(content);
+        send_mavlink2drone(Buffer.from(content));
+    }
+);

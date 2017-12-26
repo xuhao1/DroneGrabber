@@ -9,7 +9,7 @@
     "min_height": 600,
     "max_width": 800,
     "max_height": 600,
-    "show": true,
+    "show": false,
     "toolbar": true,
     "frame":false
   },
@@ -18,5 +18,5 @@
   "dependencies": {
     "socket.io-client": "^2.0.4"
   },
-  "chromium-args": "--disable-web-security --allow-running-insecure-content --ignore-certificate-errors"
+  "chromium-args": "--enable-logging=stderr --disable-web-security --allow-running-insecure-content --ignore-certificate-errors"
 }
