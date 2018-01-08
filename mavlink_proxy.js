@@ -21,7 +21,7 @@ if (using_serial) {
     });
 
     port.on('data', function (data) {
-        console.log('Data:', data);
+        // console.log('Data:', data);
         send_msg_to_gcs(data);
     });
 
