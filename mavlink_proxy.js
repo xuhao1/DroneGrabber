@@ -4,7 +4,7 @@ const dgram = require('dgram');
 const server = dgram.createSocket('udp4');
 var drone_rinfo = 0;
 const SerialPort = require('serialport');
-const port = new SerialPort('/dev/ttyACM0', {autoOpen: false});
+const port = new SerialPort('/dev/ttyS0', {autoOpen: false, baudRate: 921600});
 
 const using_serial = true;
 
