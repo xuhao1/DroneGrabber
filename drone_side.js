@@ -56,6 +56,13 @@ function send_msg_to_gcs(msg) {
 
 }
 
+function send_term_data(msg) {
+    if (gcs_easyrtcid == 0)
+        return;
+    console.log("Send xterm"+msg);
+    easyrtc.sendDataP2P(gcs_easyrtcid, 'xterm', msg);
+}
+
 easyrtc.setOnStreamClosed(function (easyrtcid) {
     easyrtc.setVideoObjectSrc(document.getElementById('callerVideo'), "");
 });
@@ -65,11 +72,19 @@ easyrtc.setAcceptChecker(function (easyrtcid, callback) {
     gcs_easyrtcid = easyrtcid;
     console.log("Got gcs id");
     console.log(gcs_easyrtcid);
+    start_terminal(80,80);
     callback(true);
 });
 
 easyrtc.setPeerListener(function (who, msgType, content) {
         // console.log(content);
-        send_mavlink2drone(Buffer.from(content));
+        if (msgType == "mavlink") {
+            send_mavlink2drone(Buffer.from(content));
+        }
+        else if (msgType=="xterm")
+        {
+            on_xterm_data(Buffer.from(content));
+        }
+
     }
 );

@@ -9,6 +9,8 @@ const port = new SerialPort('/dev/ttyS0', {autoOpen: false, baudRate: 921600});
 const using_serial = true;
 
 if (using_serial) {
+    try{
+
     port.open(function (err) {
         if (err) {
             return console.log('Error opening port: ', err.message);
@@ -24,6 +26,10 @@ if (using_serial) {
         // console.log('Data:', data);
         send_msg_to_gcs(data);
     });
+    }
+    catch(err) {
+        console.log("Open port failed"+err);
+    }
 
 }
 else {
