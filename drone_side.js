@@ -5,7 +5,7 @@ function connect_gcs() {
     easyrtc.setSocketUrl("http://vtol.xuhao1.me:8081");
     easyrtc.setUsername("DefaultDrone");
     // easyrtc.enableDebug(true);
-    // easyrtc.setVideoDims(1280,720);
+    easyrtc.setVideoDims(1280,720);
     console.log("Initializing.");
     easyrtc.enableAudio(false);
     easyrtc.enableVideoReceive(false);
