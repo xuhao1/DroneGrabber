@@ -10,8 +10,8 @@ const using_serial = true;
 
 if (using_serial) {
     try{
-
-    port.open(function (err) {
+        console.log("Try to open ttyS0");
+        port.open(function (err) {
         if (err) {
             return console.log('Error opening port: ', err.message);
         }
@@ -23,7 +23,7 @@ if (using_serial) {
     });
 
     port.on('data', function (data) {
-        // console.log('Data:', data);
+        // console.log(data);
         send_msg_to_gcs(data);
     });
     }

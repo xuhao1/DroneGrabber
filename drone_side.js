@@ -11,12 +11,23 @@ function connect_gcs() {
     easyrtc.enableVideoReceive(false);
     easyrtc.enableAudioReceive(false);
     easyrtc.enableDataChannels(true);
+    easyrtc.getDatachannelConstraints = function() {
+        console.log("Create Data Channellllllllllllllllllllllllllllllllllllllllllll!");
+        return {
+                ordered: false, // do not guarantee order
+                maxRetransmitTime: 3000, // in milliseconds
+                maxRetransmits:0
+        }};
+    var remoteFilter = easyrtc.buildRemoteSdpFilter({
+        audioSendBitrate: 20, videoSendBitrate:200
+    });
+    var localFilter = easyrtc.buildLocalSdpFilter( {
+        audioRecvBitrate:20, videoRecvBitrate:30
+    });
+    easyrtc.setSdpFilters(localFilter, remoteFilter);
     easyrtc.initMediaSource(
         function () {        // success callback
             console.log("Media inited!Will start stream");
-            var selfVideo = document.getElementById("selfVideo");
-            easyrtc.setVideoObjectSrc(selfVideo, easyrtc.getLocalStream());
-            // easyrtc.setAudioSource(selfVideo)
             easyrtc.connect("easyrtc.videoOnly", loginSuccess, loginFailure);
         },
         function (errorCode, errmesg) {
@@ -52,7 +63,8 @@ var gcs_easyrtcid = 0;
 function send_msg_to_gcs(msg) {
     if (gcs_easyrtcid == 0)
         return;
-    easyrtc.sendDataP2P(gcs_easyrtcid, 'mavlink', msg);
+    console.log(msg);
+    var ret = easyrtc.sendDataP2P(gcs_easyrtcid, 'mavlink', msg);
 
 }
 
@@ -64,7 +76,6 @@ function send_term_data(msg) {
 }
 
 easyrtc.setOnStreamClosed(function (easyrtcid) {
-    easyrtc.setVideoObjectSrc(document.getElementById('callerVideo'), "");
 });
 
 
