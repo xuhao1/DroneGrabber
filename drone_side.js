@@ -19,7 +19,7 @@ function connect_gcs() {
                 maxRetransmits:0
         }};
     var remoteFilter = easyrtc.buildRemoteSdpFilter({
-        audioSendBitrate: 20, videoSendBitrate:200
+        audioSendBitrate: 20, videoSendBitrate:400
     });
     var localFilter = easyrtc.buildLocalSdpFilter( {
         audioRecvBitrate:20, videoRecvBitrate:30
