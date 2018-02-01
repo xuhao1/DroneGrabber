@@ -2,6 +2,7 @@ var selfEasyrtcid = "";
 
 
 function connect_gcs() {
+    console.log("Will connect to VTOL.XUHAO1.ME");
     easyrtc.setSocketUrl("http://vtol.xuhao1.me:8081");
     easyrtc.setUsername("DefaultDrone");
     // easyrtc.enableDebug(true);
@@ -34,6 +35,7 @@ function connect_gcs() {
             easyrtc.showError("MEDIA-ERROR", errmesg);
         }  // failure callback
     );
+    console.log("Finish connect to GCS");
 }
 
 
@@ -50,7 +52,8 @@ function hangup() {
 
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
-    document.getElementById('self_code').innerText = easyrtcid;
+    console.log("Login to Server successful : "+easyrtcid);
+    // document.getElementById('self_code').innerText = easyrtcid;
 }
 
 
@@ -60,12 +63,10 @@ function loginFailure(errorCode, message) {
 
 var gcs_easyrtcid = 0;
 
-function send_msg_to_gcs(msg) {
+function send_msg_to_gcs_by_peer(msg) {
     if (gcs_easyrtcid == 0)
         return;
-    console.log(msg);
     var ret = easyrtc.sendDataP2P(gcs_easyrtcid, 'mavlink', msg);
-
 }
 
 function send_term_data(msg) {
@@ -90,7 +91,8 @@ easyrtc.setAcceptChecker(function (easyrtcid, callback) {
 easyrtc.setPeerListener(function (who, msgType, content) {
         // console.log(content);
         if (msgType == "mavlink") {
-            send_mavlink2drone(Buffer.from(content));
+
+            window.mavpro.process_gcs_income_data(Buffer.from(content));
         }
         else if (msgType=="xterm")
         {

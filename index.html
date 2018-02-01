@@ -29,6 +29,7 @@
             background-color: pink;
             padding: 15px;
         }
+
     </style>
     <!--show-->
 </head>
@@ -41,9 +42,23 @@
 <script src="mavlink_proxy.js"></script>
 <script src="terminal.js"></script>
 <script>
+    var gui = require('nw.gui')
     window.onload = function (ev) {
         console.log("Try to connect");
+
+        console.log(gui.App.argv);
+        var fcTTY = "/dev/ttyS0";
+        var datalinkTTY = "/dev/ttyUSB0";
+        console.log("guiapp"+gui.App);
+        if (gui.App.argv.length > 1) {
+            fcTTY = gui.App.argv[0];
+            datalinkTTY = gui.App.argv[1]
+        }
+        var mavpro = new MavlinkProxy(fcTTY, datalinkTTY);
+        window.mavpro = mavpro;
+
         connect_gcs();
+
         // start_terminal(80,80);
     }
 </script>

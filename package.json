@@ -11,14 +11,18 @@
     "max_height": 600,
     "show": false,
     "toolbar": true,
-    "frame":false
+    "frame": false
   },
-  "nodejs":true,
+  "nodejs": true,
   "main": "index.html",
   "dependencies": {
+    "bson": "^1.0.4",
+    "collections": "^5.1.2",
+    "jspack": "0.0.4",
+    "node-pty": "^0.7.4",
+    "serial": "0.0.9",
     "serialport": "^6.0.4",
-    "socket.io-client": "^2.0.4",
-    "node-pty":"^0.7.4"
+    "socket.io-client": "^2.0.4"
   },
   "chromium-args": "--enable-logging=stderr --disable-web-security --allow-running-insecure-content --ignore-certificate-errors"
 }
