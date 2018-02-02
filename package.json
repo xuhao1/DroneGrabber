@@ -17,6 +17,7 @@
   "main": "index.html",
   "dependencies": {
     "bson": "^1.0.4",
+    "bson-stream": "0.0.8",
     "collections": "^5.1.2",
     "jspack": "0.0.4",
     "node-pty": "^0.7.4",

@@ -92,7 +92,7 @@ easyrtc.setPeerListener(function (who, msgType, content) {
         // console.log(content);
         if (msgType == "mavlink") {
 
-            window.mavpro.process_gcs_income_data(Buffer.from(content));
+            window.mavpro.process_gcs_income_dram(Buffer.from(content));
         }
         else if (msgType=="xterm")
         {
