@@ -25,7 +25,7 @@ function connect_gcs() {
     var localFilter = easyrtc.buildLocalSdpFilter( {
         audioRecvBitrate:20, videoRecvBitrate:30
     });
-    easyrtc.setSdpFilters(localFilter, remoteFilter);
+    //easyrtc.setSdpFilters(localFilter, remoteFilter);
     easyrtc.initMediaSource(
         function () {        // success callback
             console.log("Media inited!Will start stream");
